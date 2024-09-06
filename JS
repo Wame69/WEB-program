@@ -1,0 +1,71 @@
+<script>
+        /*Zadanie 1*/
+        console.log("Задание 1")
+        const arr = [1, -2, 3, -4, 5, -6];
+        const Count = count(arr);
+        function count(array) {
+            let count = 0;
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] < 0) {
+                    count++;
+                }
+            }
+            return count;
+        }
+        console.log(`Количество отрицательных чисел: ${Count}`);
+        /*Zadanie 2*/
+        console.log("Задание 2")
+        function calculator(array) {
+            if (array.length === 0) {
+                return 0;
+            }
+
+            const middle = Math.floor(array.length / 2);
+            let firstHalfSum = 0;
+            let secondHalfSum = 0;
+
+            for (let i = 0; i < middle; i++) {
+                firstHalfSum += array[i];
+            }
+
+            for (let i = middle; i < array.length; i++) {
+                secondHalfSum += array[i];
+            }
+
+            if (secondHalfSum === 0) {
+                return Infinity;    
+            }
+
+            return firstHalfSum / secondHalfSum;
+        }
+        const num = [1, 2, 3, 4, 5, 6];
+        const rat = calculator(num);
+        console.log(`Отношение сумм: ${rat}`);
+        /*Zadanie 3*/
+        console.log("Задание 3")
+        for (let i = 1; i <= 1000; i++) {
+            const first = Math.floor(i / 100);
+            const second = Math.floor((i % 100) / 10);
+
+            if (first + second === 5) {
+                console.log(i);
+            }
+        }
+        /*Zadanie 4*/
+        console.log("Задание 4")
+        let arr1 = [1, 2, 3];
+        let arr2 = [4, 5, 6];
+        let mergedArray = arr1.concat(arr2); // Используем метод concat() для слияния массивов
+        console.log(mergedArray);
+        /*Zadanie 5*/
+        console.log("Задание 5")
+        const numbers = [32, 3, 23, 45, 530];
+        function increase(array) {
+            for (let i = 0; i < array.length; i++) {
+                array[i] *= 1.1; // Увеличиваем каждое число на 10%
+            }
+            return array;
+        }
+        const increasedNumbers = increase(numbers);
+        console.log(increasedNumbers);
+    </script>
