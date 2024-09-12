@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="gtoog.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <script>
+        console.log("Первое задание")
+        let mass = [1,2,3,4,5,6]
+        for(let z = 0; z <mass.length; z+=2){
+            console.log([mass[z], mass[z+1]])
+        }
+        console.log("2 zadanie")
+        let string = "Арбуз арбуз перни";
+        console.log((string.slice(0, -2)) + (string.slice(-1)))
+        console.log("3 quest")
+        function calculator(array) {
+            if (array.length === 0) {
+                return 0;
+            }
+
+            const middle = Math.floor(array.length / 2);
+            let firstHalfSum = 0;
+            let secondHalfSum = 0;
+
+            for (let i = 0; i < middle; i++) {
+                firstHalfSum += array[i];
+            }
+
+            for (let i = middle; i < array.length; i++) {
+                secondHalfSum += array[i];
+            }
+
+            if (secondHalfSum === 0) {
+                return Infinity;    
+            }
+
+            return firstHalfSum / secondHalfSum;
+        }
+        const num = [1, 2, 3, 4, 5, 6];
+        const rat = calculator(num);
+        console.log(`Отношение сумм: ${rat}`);
+        console.log("4")
+        let slovo1 = "da"
+        let slovo2 = "aet"
+        let konech = "";
+        if(slovo1.slice(-1) == slovo2[0]){
+            konech = "совпадение будет"
+        }
+        else{
+            konech = "не буит"
+        }
+        console.log(konech)
+        console.log("5.2")
+        let obj = {
+            "masha":true,
+            "valera":false
+        }
+        
+        console.log(obj)
+        console.log("666")
+        let stroka = "abcde"
+        let main = ""
+        for(let i = 0; i < stroka.length;i++){
+            if(i % 2 == 0 || i == 0){
+                main +=stroka[i].toUpperCase()
+            } 
+            else{
+                main += stroka[i]
+            }
+        }
+        console.log(main)
+        console.log("7")
+        let objecty = {
+            zad1:[mass[0], mass[1],
+                    mass[2], mass[3],            
+                    mass[4], mass[5]
+                ],
+            zad2:(string.slice(0, -2)) + (string.slice(-1)),
+            zad3:rat,
+            zad4:konech,
+            zad5:obj,
+            zad6:main
+        }
+        console.log(objecty)
+        
+    </script>
+</body>
+
+</html>
