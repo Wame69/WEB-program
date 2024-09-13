@@ -1,93 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
-        console.log("Задание 1")
+        console.log("Задание 1");
         const str1 = "aaa bbb ccc ggg";
         console.log(capital(str1));
         function capital(str) {
             return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
-        console.log("Задание 2")
+        console.log("Задание 2");
         const str2 = "023m0df0dfgo'";
         console.log(find(str2));
         function find(str) {
             return str.split('').map((char, index) => char === '0' ? index : '').filter(index => index !== '');
         }
-        console.log("Задание 3")
+        console.log("Задание 3");
         const arr1 = [123, 456, 789];
-        console.log(arr1)
+        console.log(arr1);
         console.log(reverse(arr1));
         function reverse(arr) {
             return arr.map(num => Number(num.toString().split('').reverse().join('')));
         }
         console.log("Задание 4")
         const num1 = 123789;
-        console.log(num1)
+        console.log(num1);
         console.log(remove(num1));
         function remove(num) {
             return Number(num.toString().split('').filter(digit => digit % 2 === 0).join(''));
         }
 
-        console.log("Задание 5")
-
-
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Проверка на не более 2 заглавных букв</title>
-</head>
-<body>
-    <input type="text" id="inputText" placeholder="Введите текст">
-    <button onclick="checkUpperCase()">Проверить</button>
-    <p id="result"></p>
-
-    <script>
-        function checkUpperCase() {
-            const inputString = document.getElementById('inputText').value;
-            const upperCaseCount = inputString.match(/[A-ZА-Я]/g)?.length || 0;
-
-            const resultText = upperCaseCount <= 2 
-                ? 'В строке не более 2 заглавных букв' 
-                : 'В строке больше 2 заглавных букв';
-
-            document.getElementById('result').textContent = resultText;
+        console.log("Задание 5");
+        function checkUppercase() {
+            const str = "sfdggdfFEASDfsfsf";
+            const uppercaseCount = str.match(/[A-Z]/g)?.length || 0;
+            if(uppercaseCount <= 2 )
+            {
+                console.log("В предложение меньше двух заглавных букв")
+            }
+            else
+            {
+                console.log("В предложение больше двух заглавных букв")
+            }
         }
+        checkUppercase();
+        console.log("Задание 6");
+        function removeLongSubstrings() {
+            const str = "1 22 333 4444 22 55555 1";
+            const result = str.replace(/\b\w{4,}\b/g, '');
+            console.log(result);
+        }
+        removeLongSubstrings();
     </script>
 </body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Решение задач</title>
-</head>
-<body>
-  <input type="text" id="inputString" placeholder="Введите строку">
-  <button onclick="checkUppercase()">Проверить заглавные буквы</button>
-  <button onclick="removeLongSubstrings()">Удалить длинные подстроки</button>
-  <p id="result"></p>
 
-  <script>
-    function checkUppercase() {
-      const str = document.getElementById('inputString').value;
-      const uppercaseCount = str.match(/[A-Z]/g)?.length || 0;
-      document.getElementById('result').textContent = uppercaseCount <= 2 ? 'Не более двух заглавных букв' : 'Больше двух заглавных букв';
-    }
-
-    function removeLongSubstrings() {
-      const str = document.getElementById('inputString').value;
-      const result = str.replace(/\b\w{4,}\b/g, '');
-      document.getElementById('result').textContent = result;
-    }
-  </script>
-</body>
 </html>
