@@ -65,3 +65,29 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Решение задач</title>
+</head>
+<body>
+  <input type="text" id="inputString" placeholder="Введите строку">
+  <button onclick="checkUppercase()">Проверить заглавные буквы</button>
+  <button onclick="removeLongSubstrings()">Удалить длинные подстроки</button>
+  <p id="result"></p>
+
+  <script>
+    function checkUppercase() {
+      const str = document.getElementById('inputString').value;
+      const uppercaseCount = str.match(/[A-Z]/g)?.length || 0;
+      document.getElementById('result').textContent = uppercaseCount <= 2 ? 'Не более двух заглавных букв' : 'Больше двух заглавных букв';
+    }
+
+    function removeLongSubstrings() {
+      const str = document.getElementById('inputString').value;
+      const result = str.replace(/\b\w{4,}\b/g, '');
+      document.getElementById('result').textContent = result;
+    }
+  </script>
+</body>
+</html>
