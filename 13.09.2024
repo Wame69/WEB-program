@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Решение задач</title>
 </head>
 <body>
     <script>
-        // Задача 1: Делаем заглавным первый символ каждого слова
+        console.log("Задание 1")
+        const str1 = "aaa bbb ccc ggg";
+        console.log(capitalizeFirstLetters(str1));
         function capitalizeFirstLetters(str) {
             return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
-
-        // Задача 2: Найти позиции всех нулей в строке
+        console.log("Задание 2")
+        const str2 = "023m0df0dfgo'";
+        console.log(findZeroIndexes(str2));
         function findZeroIndexes(str) {
             return str.split('').map((char, index) => char === '0' ? index : '').filter(index => index !== '');
         }
-
-        // Задача 3: Перевернуть числа в массиве
+        console.log("Задание 3")
+        const arr1 = [123, 456, 789];
+        console.log(arr1)
+        console.log(reverseNumbers(arr1));
         function reverseNumbers(arr) {
             return arr.map(num => Number(num.toString().split('').reverse().join('')));
         }
-
-        // Задача 4: Удалить нечетные цифры из числа
+        console.log("Задание 4")
+        const num1 = 123789;
+        console.log(removeOddDigits(num1));
         function removeOddDigits(num) {
             return Number(num.toString().split('').filter(digit => digit % 2 === 0).join(''));
         }
 
-        // Примеры использования функций
-        const str1 = "aaa bbb ccc";
-        console.log(capitalizeFirstLetters(str1)); // Вывод: Aaa Bbb Ccc
+       console.log("Задание 5")
 
-        const str2 = "023m0df0dfgo'";
-        console.log(findZeroIndexes(str2)); // Вывод: [0, 3, 7]
-
-        const arr1 = [123, 456, 789];
-        console.log(reverseNumbers(arr1)); // Вывод: [321, 654, 987]
-
-        const num1 = 123789;
-        console.log(removeOddDigits(num1)); // Вывод: 28
+      
     </script>
 </body>
 </html>
