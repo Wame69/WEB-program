@@ -41,3 +41,27 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Проверка на не более 2 заглавных букв</title>
+</head>
+<body>
+    <input type="text" id="inputText" placeholder="Введите текст">
+    <button onclick="checkUpperCase()">Проверить</button>
+    <p id="result"></p>
+
+    <script>
+        function checkUpperCase() {
+            const inputString = document.getElementById('inputText').value;
+            const upperCaseCount = inputString.match(/[A-ZА-Я]/g)?.length || 0;
+
+            const resultText = upperCaseCount <= 2 
+                ? 'В строке не более 2 заглавных букв' 
+                : 'В строке больше 2 заглавных букв';
+
+            document.getElementById('result').textContent = resultText;
+        }
+    </script>
+</body>
+</html>
