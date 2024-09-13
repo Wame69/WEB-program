@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Решение задач</title>
+</head>
+<body>
+    <script>
+        // Задача 1: Делаем заглавным первый символ каждого слова
+        function capitalizeFirstLetters(str) {
+            return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
 
+        // Задача 2: Найти позиции всех нулей в строке
+        function findZeroIndexes(str) {
+            return str.split('').map((char, index) => char === '0' ? index : '').filter(index => index !== '');
+        }
+
+        // Задача 3: Перевернуть числа в массиве
+        function reverseNumbers(arr) {
+            return arr.map(num => Number(num.toString().split('').reverse().join('')));
+        }
+
+        // Задача 4: Удалить нечетные цифры из числа
+        function removeOddDigits(num) {
+            return Number(num.toString().split('').filter(digit => digit % 2 === 0).join(''));
+        }
+
+        // Примеры использования функций
+        const str1 = "aaa bbb ccc";
+        console.log(capitalizeFirstLetters(str1)); // Вывод: Aaa Bbb Ccc
+
+        const str2 = "023m0df0dfgo'";
+        console.log(findZeroIndexes(str2)); // Вывод: [0, 3, 7]
+
+        const arr1 = [123, 456, 789];
+        console.log(reverseNumbers(arr1)); // Вывод: [321, 654, 987]
+
+        const num1 = 123789;
+        console.log(removeOddDigits(num1)); // Вывод: 28
+    </script>
+</body>
+</html>
