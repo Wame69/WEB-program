@@ -1,0 +1,9 @@
+*{
+    margin: auto 0;
+    padding: auto 0;
+}
+.board-container {
+    padding: 20px;
+    background-color: #00bd29;
+    display: inline-block;
+}
