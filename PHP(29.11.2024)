@@ -1,0 +1,85 @@
+<?php
+$users = [
+    ['name' => 'Алиса', 'age' => 25, 'gender' => 'female'],
+    ['name' => 'Боб', 'age' => 30, 'gender' => 'male'],
+    ['name' => 'Ева', 'age' => 22, 'gender' => 'female'],
+    ['name'=> 'Гриша', 'age'=> 50, 'gender' => 'male'],
+    ['name'=> 'Елизавета', 'age'=> 24, 'gender'=> 'female'],    
+];
+echo "Древнерусское выполнение 1 задания<br>";
+$totalAge = 0;
+foreach ($users as $user) {
+    $totalAge += $user['age'];
+}
+$averageAge = $totalAge / count($users);
+echo "Средний возраст: $averageAge\n";
+
+$females = [];
+foreach ($users as $user) {
+    if ($user['gender'] == 'female') {
+        $females[] = $user['name'];
+    }
+}
+echo "<br>Женщины: " . implode(', ', $females) . "\n";
+echo "<br> ";
+//----------------------------------------------------
+echo "<br>Славянский перебор 2 задания<br>";
+
+$words = ['apple', 'banana', 'cherry', 'kiwi', 'watermelon'];
+
+function length($a, $b) {
+    return strlen($a) - strlen($b);
+}
+
+usort($words, 'length');
+echo "Отсортированные слова: " . implode(', ', $words) . "\n";
+echo "<br> ";
+echo "<br>Магический заряд пятого поколения 3 задания<br>";
+function findPrimes($n) {
+    $primes = [];
+    for ($i = 2; $i <= $n; $i++) {
+        $isPrime = true;
+        for ($j = 2; $j <= sqrt($i); $j++) {
+            if ($i % $j == 0) {
+                $isPrime = false;
+                break;
+            }
+        }
+        if ($isPrime) {
+            $primes[] = $i;
+        }
+    }
+    return $primes;
+}
+
+$primes = findPrimes(10);
+echo "Простые числа до 10: " . implode(', ', $primes) . "\n";
+echo "<br> ";
+//----------------------------------------------------------
+echo "<br> Греческий салат 4 задания<br>";
+
+function countWords($text) {
+    $words = explode(' ', $text);
+    $totalWords = count($words);
+    $uniqueWords = array_unique($words);
+    $wordFrequency = array_count_values($words);
+
+    return [
+        'total' => $totalWords,
+        'unique' => count($uniqueWords),
+        'frequency' => $wordFrequency
+    ];
+}
+
+$text = "Жили да жили были да рыцарь Гоша и дракон Тоша. Пошли они однажды в поход, и встретили они и мудрый дуб и встретили маму и встретили папу";
+$result = countWords($text);
+
+echo "Общее количество слов: " . $result['total'] . "\n";
+echo "<br>Уникальных слов: " . $result['unique'] . "\n";
+echo "<br>Частота слов: \n";
+foreach ($result['frequency'] as $word => $count) {
+    echo "$word => $count\n // ";
+}
+
+
+?>
