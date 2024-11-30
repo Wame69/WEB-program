@@ -1,0 +1,73 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['secret'])) {
+    $_SESSION['secret'] = rand(1, 100);
+}
+if (!isset($_SESSION['history'])) {
+    $_SESSION['history'] = [];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['guess'])) {
+        $guess = (int)$_POST['guess'];
+        $secret = $_SESSION['secret'];
+        $result = ($guess === $secret) ? 'Поздравляем! Вы угадали!' : ($guess > $secret ? 'Меньше' : 'Больше');
+        $_SESSION['history'][] = ['guess' => $guess, 'result' => $result];
+        if ($guess === $secret) { 
+            $_SESSION['history'] = [];
+        }
+    }
+
+    if (isset($_POST['give_up'])) {
+        unset($_SESSION['secret']); 
+        $_SESSION['history'] = []; 
+        header("Location: index.php");
+        exit();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай число</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Игра «Угадай число»</h1>
+    
+    <?php if (isset($result) && $result === 'Поздравляем! Вы угадали!'): ?>
+        <h2><?= $result ?></h2>
+    <?php endif; ?>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Загаданное число</th>
+                <th>Насколько близко</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($_SESSION['history'] as $attempt): ?>
+                <tr>
+                    <td><?= $attempt['guess'] ?></td>
+                    <td><?= $attempt['result'] ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <form action="index.php" method="POST">
+        <label for="guess">Попробуйте угадать число:</label>
+        <input type="number" name="guess" id="guess" min="1" max="100" required>
+        <button type="submit">Попробовать угадать</button>
+    </form>
+
+    <form action="index.php" method="POST">
+        <button type="submit" name="give_up">Сдаться</button>
+    </form>
+</body>
+</html>
