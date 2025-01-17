@@ -1,0 +1,107 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+    <!-- Задание 1 -->
+    <h2>1. Обратный счет</h2>
+    <form method="post">
+        <input type="number" name="number" min="1" required>
+        <input type="submit" name="count" value="Считать">
+    </form>
+    <?php
+    if (isset($_POST['count'])) {
+        $n = intval($_POST['number']);
+        if ($n > 0) {
+            echo "<h3>Обратный счет от $n до 1:</h3>";
+            for ($i = $n; $i >= 1; $i--) {
+                echo $i . "<br>";
+            }
+        } else {
+            echo "<p style='color:red;'>Пожалуйста, введите положительное число.</p>";
+        }
+    }
+    ?>
+
+    <!-- Задание 2 -->
+    <h2>2. Конвертер валют</h2>
+    <form method="post">
+        <input type="number" name="rubles" required>
+        <input type="submit" name="convert" value="Конвертировать">
+    </form>
+    <?php
+    if (isset($_POST['convert'])) {
+        $rubles = floatval($_POST['rubles']);
+        $exchange_rate = 102;
+        $dollars = $rubles / $exchange_rate;
+        echo "<h3>$rubles рублей = " . number_format($dollars, 2) . " долларов</h3>";
+    }
+    ?>
+
+    <!-- Задание 3 -->
+    <h2>3. Сохранение имени пользователя</h2>
+    <?php
+    //if (isset($_COOKIE['username'])) {
+        //echo "<h3>Привет, " . htmlspecialchars($_COOKIE['username']) . "!</h3>";
+    //} else {
+        if (isset($_POST['save_name'])) {
+            $username = htmlspecialchars($_POST['username']);
+            setcookie('username', $username, time() + 3600);
+            echo "<h3>Привет, $username!</h3>";
+        }
+        ?>
+        <form method="post">
+            <input type="text" name="username" required>
+            <input type="submit" name="save_name" value="Сохранить">
+        </form>
+        <?php
+    //}
+    ?>
+
+    <!-- Задание 4 -->
+    <h2>4. Мини-задачник</h2>
+    <form method="post">
+        <input type="text" name="note" required>
+        <input type="submit" name="add_note" value="Добавить">
+    </form>
+    <?php
+    $filename = 'notes.txt';
+
+    if (isset($_POST['add_note'])) {
+        $note = htmlspecialchars($_POST['note']) . PHP_EOL;
+        file_put_contents($filename, $note, FILE_APPEND);
+    }
+
+    if (file_exists($filename)) {
+        echo "<h3>Список заметок:</h3>";
+        $notes = file_get_contents($filename);
+        echo nl2br($notes);
+    }
+    ?>
+
+    <!-- Задание 5 -->
+    <h2>5. Авторизация пользователя</h2>
+    <form method="post">
+        <input type="text" name="login" placeholder="Логин" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="submit" name="login_user" value="Войти">
+    </form>
+    <?php
+    if (isset($_POST['login_user'])) {
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+
+        if ($login === "admin" && $password === "1234") {
+            echo "<h3>Добро пожаловать, админ!</h3>";
+        } else {
+            echo "<p style='color:red;'>Неверный логин или пароль.</p>";
+        }
+    }
+    ?>
+</body>
