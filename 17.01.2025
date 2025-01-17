@@ -4,9 +4,11 @@ session_start();
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
 </head>
+
 <body>
 
     <!-- Задание 1 -->
@@ -47,61 +49,72 @@ session_start();
     <!-- Задание 3 -->
     <h2>3. Сохранение имени пользователя</h2>
     <?php
-    //if (isset($_COOKIE['username'])) {
-        //echo "<h3>Привет, " . htmlspecialchars($_COOKIE['username']) . "!</h3>";
-    //} else {
+    if (isset($_COOKIE['username'])) {
+        echo "<h3>Привет, " . htmlspecialchars($_COOKIE['username']) . "!</h3>";
+    } else {
         if (isset($_POST['save_name'])) {
             $username = htmlspecialchars($_POST['username']);
             setcookie('username', $username, time() + 3600);
             echo "<h3>Привет, $username!</h3>";
         }
-        ?>
+    ?>
         <form method="post">
             <input type="text" name="username" required>
             <input type="submit" name="save_name" value="Сохранить">
         </form>
-        <?php
-    //}
+    <?php
+    }
     ?>
 
     <!-- Задание 4 -->
-    <h2>4. Мини-задачник</h2>
+    <h2>Мини-задачник</h2>
     <form method="post">
         <input type="text" name="note" required>
         <input type="submit" name="add_note" value="Добавить">
     </form>
     <?php
     $filename = 'notes.txt';
-
     if (isset($_POST['add_note'])) {
         $note = htmlspecialchars($_POST['note']) . PHP_EOL;
         file_put_contents($filename, $note, FILE_APPEND);
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
-
     if (file_exists($filename)) {
         echo "<h3>Список заметок:</h3>";
         $notes = file_get_contents($filename);
         echo nl2br($notes);
     }
     ?>
-
     <!-- Задание 5 -->
     <h2>5. Авторизация пользователя</h2>
-    <form method="post">
-        <input type="text" name="login" placeholder="Логин" required>
-        <input type="password" name="password" placeholder="Пароль" required>
-        <input type="submit" name="login_user" value="Войти">
-    </form>
     <?php
-    if (isset($_POST['login_user'])) {
-        $login = $_POST['login'];
-        $password = $_POST['password'];
-
-        if ($login === "admin" && $password === "1234") {
+    if (isset($_POST['login'])) {
+        $username = htmlspecialchars($_POST['username']);
+        $password = htmlspecialchars($_POST['password']);
+        if ($username === 'admin' && $password === '1234') {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $username;
             echo "<h3>Добро пожаловать, админ!</h3>";
         } else {
-            echo "<p style='color:red;'>Неверный логин или пароль.</p>";
+            echo "<h3 style='color: red;'>Ошибка: неверный логин или пароль.</h3>";
         }
+    }
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+        echo "<h3>Вы уже авторизованы как " . htmlspecialchars($_SESSION['username']) . ".</h3>";
+    } else {
+    ?>
+        <h2>Форма авторизации</h2>
+        <form method="post">
+            <label for="username">Логин:</label>
+            <input type="text" name="username" required>
+            <br>
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" required>
+            <br>
+            <input type="submit" name="login" value="Войти">
+        </form>
+    <?php
     }
     ?>
 </body>
