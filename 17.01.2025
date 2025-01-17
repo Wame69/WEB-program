@@ -48,22 +48,22 @@ session_start();
 
     <!-- Задание 3 -->
     <h2>3. Сохранение имени пользователя</h2>
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars($_POST['name']);
-    setcookie("username", $name, time() + (86400 * 30), "/"); 
-    echo "Привет, $name!";
-} elseif (isset($_COOKIE['username'])) {
-    echo "Привет, " . htmlspecialchars($_COOKIE['username']) . "!";
-} else {
-    echo "Введите ваше имя:";
-}
-?>
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = htmlspecialchars($_POST['name']);
+        setcookie("username", $name, time() + (86400 * 30), "/");
+        echo "Привет, $name!";
+    } elseif (isset($_COOKIE['username'])) {
+        echo "Привет, " . htmlspecialchars($_COOKIE['username']) . "!";
+    } else {
+        echo "Введите ваше имя:";
+    }
+    ?>
 
-<form method="post">
-    <input type="text" name="name" required>
-    <input type="submit" value="Сохранить имя">
-</form>
+    <form method="post">
+        <input type="text" name="name" required>
+        <input type="submit" value="Сохранить имя">
+    </form>
 
     <!-- Задание 4 -->
     <?php
