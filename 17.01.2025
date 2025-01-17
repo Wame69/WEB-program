@@ -67,11 +67,6 @@ session_start();
     ?>
 
     <!-- Задание 4 -->
-    <h2>Мини-задачник</h2>
-    <form method="post">
-        <input type="text" name="note" required>
-        <input type="submit" name="add_note" value="Добавить">
-    </form>
     <?php
     $filename = 'notes.txt';
     if (isset($_POST['add_note'])) {
@@ -86,6 +81,12 @@ session_start();
         echo nl2br($notes);
     }
     ?>
+
+    <h2>Мини-задачник</h2>
+    <form method="post">
+        <input type="text" name="note" required>
+        <input type="submit" name="add_note" value="Добавить">
+    </form>
     <!-- Задание 5 -->
     <h2>5. Авторизация пользователя</h2>
     <?php
