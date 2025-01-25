@@ -147,14 +147,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Задание 4
 <?php
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = htmlspecialchars($_POST['name']);
     $email = htmlspecialchars($_POST['email']);
 
-    $file = 'users.csv';
-    $handle = fopen($file, 'a');
-    fputcsv($handle, [$name, $email]);
-    fclose($handle);
+    if (!isset($_SESSION['form_submitted'])) {
+        $file = 'users.csv';
+        $handle = fopen($file, 'a');
+        fputcsv($handle, [$name, $email]);
+        fclose($handle);
+
+        $_SESSION['form_submitted'] = true;
+    }
 }
 
 $users = [];
@@ -204,3 +210,4 @@ if (file_exists('users.csv')) {
 
 </body>
 </html>
+
