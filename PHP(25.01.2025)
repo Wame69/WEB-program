@@ -1,0 +1,206 @@
+// Задание 1
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка палиндрома</title>
+</head>
+
+<body>
+
+    <form method="POST">
+        <label for="text">Введите строку:</label>
+        <input type="text" name="text" id="text" required>
+        <input type="submit" value="Проверить">
+    </form>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        function isPalindrome($word)
+        {
+            $word = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $word));
+            return $word === strrev($word);
+        }
+        $input = htmlspecialchars($_POST['text']);
+        $words = preg_split('/\s+/', $input);
+
+        $longestPalindrome = '';
+
+        foreach ($words as $word) {
+
+            if (isPalindrome($word) && strlen($word) > strlen($longestPalindrome)) {
+                $longestPalindrome = $word;
+            }
+        }
+
+        if ($longestPalindrome) {
+            echo "<p>Самое длинное слово-палиндром: <strong>$longestPalindrome</strong></p>";
+        } else {
+            echo "<p>Палиндромов в строке не найдено.</p>";
+        }
+    }
+    ?>
+
+</body>
+
+</html>
+
+// Задание 2
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор возраста</title>
+</head>
+<body>
+
+<form method="POST">
+    <label for="dob">Введите дату рождения (формат ГГГГ-ММ-ДД):</label>
+    <input type="date" name="dob" id="dob">
+    <input type="submit" value="Посчитать возраст">
+</form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $dob = $_POST['dob'];
+    $dobDate = new DateTime($dob);
+    $currentDate = new DateTime();
+    $age = $currentDate->diff($dobDate);
+    $years = $age->y;
+    if ($years == 1) {
+        echo "Ваш возраст: $years год";
+    } elseif ($years >= 2 && $years <= 4) {
+        echo "Ваш возраст: $years года";
+    } else {
+        echo "Ваш возраст: $years лет";
+    }
+}
+?>
+
+</body>
+</html>
+
+// Задание 3
+<?php
+session_start();
+
+if (!isset($_SESSION['tasks'])) {
+    $_SESSION['tasks'] = [];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['task']) && !empty($_POST['task'])) {
+        $task = [
+            'task' => htmlspecialchars($_POST['task']),
+            'status' => 'Не выполнена'
+        ];
+        $_SESSION['tasks'][] = $task;
+    }
+
+    if (isset($_POST['delete'])) {
+        unset($_SESSION['tasks'][$_POST['delete']]);
+        $_SESSION['tasks'] = array_values($_SESSION['tasks']);
+    }
+
+    if (isset($_POST['toggleStatus'])) {
+        $index = $_POST['toggleStatus'];
+        $_SESSION['tasks'][$index]['status'] = ($_SESSION['tasks'][$index]['status'] == 'Не выполнена') ? 'Выполнена' : 'Не выполнена';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo-лист</title>
+</head>
+<body>
+
+<h2>Добавить задачу</h2>
+<form method="POST">
+    <input type="text" name="task" required>
+    <input type="submit" value="Добавить">
+</form>
+
+<h2>Список задач</h2>
+<ul>
+    <?php foreach ($_SESSION['tasks'] as $index => $task): ?>
+        <li>
+            <?= $task['task'] ?> (Статус: <?= $task['status'] ?>)
+            <form method="POST" style="display:inline;">
+                <input type="hidden" name="toggleStatus" value="<?= $index ?>">
+                <input type="submit" value="Изменить статус">
+            </form>
+            <form method="POST" style="display:inline;">
+                <input type="hidden" name="delete" value="<?= $index ?>">
+                <input type="submit" value="Удалить">
+            </form>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
+</body>
+</html>
+
+// Задание 4
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+
+    $file = 'users.csv';
+    $handle = fopen($file, 'a');
+    fputcsv($handle, [$name, $email]);
+    fclose($handle);
+}
+
+$users = [];
+if (file_exists('users.csv')) {
+    $file = fopen('users.csv', 'r');
+    while (($row = fgetcsv($file)) !== false) {
+        $users[] = $row;
+    }
+    fclose($file);
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+</head>
+<body>
+
+<h2>Добавить пользователя</h2>
+<form method="POST">
+    <label for="name">Имя:</label>
+    <input type="text" name="name" id="name" required><br>
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required><br>
+    <input type="submit" value="Добавить">
+</form>
+
+<h2>Список пользователей</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $user): ?>
+            <tr>
+                <td><?= $user[0] ?></td>
+                <td><?= $user[1] ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+</body>
+</html>
