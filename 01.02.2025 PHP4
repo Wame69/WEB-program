@@ -1,0 +1,86 @@
+// 1 Задание
+<?php
+function areAnagrams($words) {
+    $sortedWords = array_map(function($word) {
+        return str_split(strtolower(trim($word)));
+    }, $words);
+    foreach ($sortedWords as &$word) {
+        sort($word);
+        $word = implode('', $word);
+    }
+    return count(array_unique($sortedWords)) === 1;
+}
+
+$anagramCheckResult = null;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $inputWords = $_POST['words'] ?? '';
+    $wordsArray = array_filter(array_map('trim', explode(',', $inputWords)));
+    if (count($wordsArray) < 2) {
+        $anagramCheckResult = "Пожалуйста, введите 2 или более слов.";
+    } else {
+        $anagramCheckResult = areAnagrams($wordsArray) ? "Слова являются анаграммами." : "Слова не являются анаграммами.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка анаграммы</title>
+</head>
+<body>
+    <h1>Проверка анаграммы</h1>
+    <form method="post">
+        <label for="words">Введите слова (через запятую):</label><br>
+        <input type="text" id="words" name="words" required>
+        <br><br>
+        <input type="submit" value="Проверить">
+    </form>
+
+    <?php if ($anagramCheckResult !== null): ?>
+        <h2>Результат:</h2>
+        <p><?php echo htmlspecialchars($anagramCheckResult); ?></p>
+    <?php endif; ?>
+</body>
+</html>
+
+
+//3 Задание
+<?php
+$quotes = [
+    "Без труда не вытащишь и рыбку из пруда.",
+    "Не имей сто рублей, а имей сто друзей.",
+    "Лучше синица в руках, чем журавль в небе.",
+    "На безрыбье и рак рыба.",
+    "Не всё то золото, что блестит.",
+    "Береги платье снову, а честь смолоду.",
+    "Что посеешь, то и пожнёшь.",
+    "Аппетит приходит во время еды.",
+    "От туч небо темнеет, а от бед — душа.",
+    "Друзья познаются в беде.",
+    "Своя рубашка ближе к телу.",
+    "Как аукнется, так и откликнется.",
+    "Не было бы счастья, да несчастье помогло.",
+    "Утро вечера мудренее.",
+    "На каждую мудрость найдется своя глупость.",
+    "Старый друг лучше новых двух.",
+    "Семь раз отмерь, один раз отрежь."
+];
+
+function getRandomQuotes($quotes, $num = 3) {
+    if ($num > count($quotes)) {
+        $num = count($quotes);
+    }
+    shuffle($quotes);
+    return array_slice($quotes, 0, $num);
+}
+
+$randomQuotes = getRandomQuotes($quotes);
+
+foreach ($randomQuotes as $quote) {
+    echo '<p>' . htmlspecialchars($quote, ENT_QUOTES, 'UTF-8') . '</p>';
+}
+?>
