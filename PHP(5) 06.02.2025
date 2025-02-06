@@ -1,0 +1,152 @@
+// Zadanie 1
+<?php
+session_start();
+
+function generate_password($length, $options) {
+    $characters = '';
+    if ($options['letters']) {
+        $characters .= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    }
+    if ($options['numbers']) {
+        $characters .= '0123456789';
+    }
+    if ($options['special_chars']) {
+        $characters .= '!@#$%^&*()-_=+[]{}|;:,.<>?/';
+    }
+    if (empty($characters)) {
+        return 'Ошибка: выберите хотя бы одну опцию';
+    }
+    $password = substr(str_shuffle($characters), 0, $length);
+    return $password;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $length = (int) $_POST['length'];
+    $options = [
+        'letters' => isset($_POST['letters']),
+        'numbers' => isset($_POST['numbers']),
+        'special_chars' => isset($_POST['special_chars'])
+    ];
+
+    $password = generate_password($length, $options);
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор пароля</title>
+</head>
+<body>
+    <h1>Генератор случайного пароля</h1>
+    <form method="POST">
+        <label>Длина пароля: </label>
+        <input type="number" name="length" min="6" max="32" required>
+        <br>
+        <label>Буквы: </label>
+        <input type="checkbox" name="letters" checked>
+        <br>
+        <label>Цифры: </label>
+        <input type="checkbox" name="numbers" checked>
+        <br>
+        <label>Спецсимволы: </label>
+        <input type="checkbox" name="special_chars">
+        <br><br>
+        <button type="submit">Создать пароль</button>
+    </form>
+
+    <?php if (isset($password)): ?>
+        <h2>Ваш пароль: <?= htmlspecialchars($password) ?></h2>
+    <?php endif; ?>
+</body>
+</html>
+
+
+//Zadanie 2
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = trim($_POST['name']);
+    $initials = strtoupper(substr($name, 0, 1) . substr($name, strpos($name, ' ') + 1, 1));
+    $width = 200;
+    $height = 200;
+    $font = 'arial.ttf';
+
+    $image = imagecreatetruecolor($width, $height);
+    $backgroundColor = imagecolorallocate($image, rand(0, 255), rand(0, 255), rand(0, 255)); // Случайный цвет фона
+    $textColor = imagecolorallocate($image, 255, 255, 255);
+
+    imagefilledellipse($image, $width / 2, $height / 2, $width, $height, $backgroundColor);
+    $fontSize = 48;
+    imagettftext($image, $fontSize, 0, ($width - 70) / 2, ($height + 60) / 2, $textColor, $font, $initials);
+    header('Content-Type: image/png');
+    imagepng($image);
+    imagedestroy($image);
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор аватарок</title>
+</head>
+<body>
+    <h1>Генератор аватарок</h1>
+    <form method="POST">
+        <label>Введите имя: </label>
+        <input type="text" name="name" required>
+        <br><br>
+        <button type="submit">Создать аватар</button>
+    </form>
+</body>
+</html>
+
+
+//Zadanie 3
+<?php
+session_start();
+
+if (!isset($_SESSION['start_time'])) {
+    $_SESSION['start_time'] = time();
+}
+
+function get_elapsed_time() {
+    return time() - $_SESSION['start_time'];
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Счетчик секунд</title>
+    <script>
+        function updateTime() {
+            fetch('elapsed_time.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('time').innerText = data;
+                });
+        }
+        setInterval(updateTime, 1000);
+    </script>
+</head>
+<body>
+    <h1>Время на сайте: <span id="time"><?= get_elapsed_time() ?></span> секунд</h1>
+</body>
+</html>
+
+//Доп файл
+<?php
+session_start();
+
+function get_elapsed_time() {
+    return time() - $_SESSION['start_time'];
+}
+
+echo get_elapsed_time();
+?>
