@@ -1,0 +1,31 @@
+<?php
+$adjectives_male = [
+    "Сладкий", "Красный", "Голубой", "Яркий", "Зеленый", "Веселый", "Медовый", "Теплый",
+    "Смелый", "Храбрый", "Тихий", "Быстрый", "Солнечный", "Необычный", "Дружелюбный"
+];
+
+$adjectives_female = [
+    "Сладкая", "Красная", "Голубая", "Яркая", "Зеленая", "Веселая", "Медовая", "Теплая",
+    "Смелая", "Храбрая", "Тихая", "Быстрая", "Солнечная", "Необычная", "Дружелюбная"
+];
+$nouns_male = [
+    "Лимон", "Банан", "Заяц", "Медведь", "Кот", "Петух", "Лев", "Тигр", "Гроза", "Гриль"
+];
+
+$nouns_female = [
+    "Лимон", "Банан", "Заяц", "Медведица", "Кошка", "Петух", "Львица", "Тигрица", "Гроза", "Гриль"
+];
+
+$gender = rand(0, 1) == 0 ? 'male' : 'female'; 
+if ($gender == 'male') {
+    $adjective = $adjectives_male[array_rand($adjectives_male)];
+    $noun = $nouns_male[array_rand($nouns_male)];
+} else {
+    $adjective = $adjectives_female[array_rand($adjectives_female)];
+    $noun = $nouns_female[array_rand($nouns_female)];
+}
+
+$nickname = $adjective . $noun;
+echo "Ваш случайный никнейм: " . $nickname;
+
+?>
