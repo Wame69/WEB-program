@@ -1,0 +1,75 @@
+//Задание 1
+<?php
+date_default_timezone_set('Asia/Novosibirsk');
+$hour = date('H');
+if ($hour >= 6 && $hour < 12) {
+    echo "Доброе утро!";
+} elseif ($hour >= 12 && $hour < 18) {
+    echo "Добрый день!";
+} elseif ($hour >= 18 && $hour < 24) {
+    echo "Добрый вечер!";
+} else {
+    echo "Доброй ночи!";
+}
+?>
+
+
+//Задание 2
+<?php
+$adjectives = ['Сладкий', 'Красный', 'Большой', 'Тёмный', 'Летний', 'Мудрый', 'Яркий', 'Нежный', 'Тёплый', 'Вкусный'];
+$nouns = ['Лимон', 'Банан', 'Мед', 'Меч', 'Кот', 'Заяц', 'Тигр', 'Воробей', 'Цветок', 'Снег'];
+$randomAdjective = $adjectives[array_rand($adjectives)];
+$randomNoun = $nouns[array_rand($nouns)];
+$nickname = $randomAdjective . $randomNoun;
+echo "Ваш случайный никнейм: " . $nickname;
+?>
+
+
+//Задание 3
+<?php
+session_start(); 
+
+if (!isset($_SESSION['num1']) || !isset($_SESSION['num2']) || isset($_POST['retry'])) {
+    $_SESSION['num1'] = rand(1, 10);
+    $_SESSION['num2'] = rand(1, 10);
+}
+
+$correctAnswer = $_SESSION['num1'] + $_SESSION['num2'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['retry'])) {
+    $userAnswer = (int)$_POST['captcha_answer'];
+    if ($userAnswer == $correctAnswer) {
+        header("Location: victory.php");
+        exit(); 
+    } else {
+        echo "Неверный ответ на капчу. Попробуйте снова.";
+    }
+}
+?>
+
+<form method="POST">
+    <label for="captcha_answer">Сколько будет <?= $_SESSION['num1'] ?> + <?= $_SESSION['num2'] ?>?</label>
+    <input type="text" id="captcha_answer" name="captcha_answer" required>
+    <button type="submit">Отправить</button>
+</form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['captcha_answer']) && (int)$_POST['captcha_answer'] != $correctAnswer) {
+    echo '<form method="POST">
+            <button type="submit" name="retry">Попробовать снова</button>
+          </form>';
+}
+?>
+//Доп файл
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УРА ПОБЕДА!</title>
+</head>
+<body>
+    <h1>УРА ПОБЕДА ЕЕЕЕЕЕ!!!</h1>
+    <p>Поздравляем, вы прошли капчу!</p>
+</body>
+</html>
