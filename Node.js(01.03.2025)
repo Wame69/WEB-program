@@ -1,0 +1,120 @@
+//Файл app.js
+// Импортируем express и другие необходимые библиотеки
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+
+// Подключаем bodyParser для обработки POST-запросов с формами
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// 1. "Привет, Express!"
+app.get('/', (req, res) => {
+  res.send('Привет, мир!');
+});
+
+// 2. Маршруты и параметры
+app.get('/about', (req, res) => {
+  res.send('Информация о сайте');
+});
+
+app.get('/user/:name', (req, res) => {
+  const name = req.params.name;
+  res.send(`Привет, ${name}!`);
+});
+
+// 3. Форма обратной связи
+app.get('/form', (req, res) => {
+  res.sendFile(__dirname + '/form.html');  // Путь к файлу формы (например, form.html)
+});
+
+app.post('/submit', (req, res) => {
+  const { name, message } = req.body;
+  res.send(`Спасибо за сообщение, ${name}! Мы получили: ${message}`);
+});
+
+// 4. API JSON
+const users = [
+  { id: 1, name: 'Иван' },
+  { id: 2, name: 'Мария' },
+  { id: 3, name: 'Дмитрий' }
+];
+
+app.get('/api/users', (req, res) => {
+  res.json(users);
+});
+
+// 5. Простой шаблонизатор с EJS
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
+const products = [
+  { id: 1, name: 'Товар 1', price: 100 },
+  { id: 2, name: 'Товар 2', price: 200 },
+  { id: 3, name: 'Товар 3', price: 300 }
+];
+
+app.get('/products', (req, res) => {
+  res.render('products', { products });
+});
+
+// Запускаем сервер
+app.listen(port, () => {
+  console.log(`Сервер работает на http://localhost:${port}`);
+});
+
+
+//Файл form.html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форма обратной связи</title>
+</head>
+<body>
+  <h1>Форма обратной связи</h1>
+  <form action="/submit" method="POST">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="message">Сообщение:</label>
+    <textarea id="message" name="message" required></textarea><br>
+    <button type="submit">Отправить</button>
+  </form>
+</body>
+</html>
+
+//Создать папку views, в ней создать файл products.ejs
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список товаров</title>
+</head>
+<body>
+  <h1>Список товаров</h1>
+  <ul>
+    <% products.forEach(product => { %>
+      <li><%= product.name %> - <%= product.price %> рублей</li>
+    <% }); %>
+  </ul>
+</body>
+</html>
+
+
+// Инструкция 
+1. Скачать Node.js с офиц. сайта
+2. В VSCode проверить установку командой "node -v"
+3. Установить в VSCode через терминал "npm install express ejs"
+4. Выполнить команду так же в терменале "npm init -y"
+5. Автоматически будет создан файл package.json
+6. Создать выше приведенные файлы и не забыть про папку
+7. Выполнить команду в терминале "node app.js"
+8. Ссылкии для вывода заданий в браузер
+*  http://localhost:3000/
+*  http://localhost:3000/about
+*  http://localhost:3000/user/Иван
+*  http://localhost:3000/form
+*  http://localhost:3000/api/users
+*  http://localhost:3000/products
